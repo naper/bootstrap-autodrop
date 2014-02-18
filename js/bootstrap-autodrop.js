@@ -1,10 +1,10 @@
 /* =============================================================
- * AutoDrop.js v1.0.0
+ * autodrop.js v1.0.0
  * =============================================================
  * Copyright 2012 Narin Persad
  *
- * ~~~~Forked from Daniel Farrell's original bootstrap-AutoDrop plugin~~~~
- * https://github.com/danielfarrell/bootstrap-AutoDrop
+ * ~~~~Forked from Daniel Farrell's original bootstrap-autodrop plugin~~~~
+ * https://github.com/danielfarrell/bootstrap-autodrop
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,41 +23,32 @@
 
     "use strict";
 
-    /* AutoDrop PUBLIC CLASS DEFINITION
+    /* autodrop PUBLIC CLASS DEFINITION
      * ================================ */
 
-    var AutoDrop = function (element, options) {
-        this.options = $.extend({}, $.fn.AutoDrop.defaults, options);
+    var autodrop = function (element, options) {
+        this.options = $.extend({}, $.fn.autodrop.defaults, options);
         this.$source = $(element);
-        this.$container = this.setup();
-        this.$element = this.$container.find('input[type=text]');
-        this.$target = this.$container.find('input[type=hidden]');
-        this.$button = this.$container.find('.dropdown-toggle');
+         
+        this.$element = this.$source.find('input[type=text]');
+        this.$target = this.$source.find('input[type=hidden]');
+        this.$button = this.$source.find('.dropdown-toggle');
         //this.$menu = $(this.options.menu).appendTo('body');
-        this.$menu = this.$container.find('ul');
+        this.$menu = this.$source.find('ul');
         this.matcher = this.options.matcher || this.matcher;
         this.sorter = this.options.sorter || this.sorter;
         this.highlighter = this.options.highlighter || this.highlighter;
         this.shown = false;
         this.selected = false;
-        this.refresh();
-        //this.transferAttributes();
+        this.refresh(); 
         this.listen();
     };
 
-    AutoDrop.prototype = {
+    autodrop.prototype = {
 
-        constructor: AutoDrop
+        constructor: autodrop
 
-    , setup: function () {
-        //var AutoDrop = $(this.options.template);
-        //this.$source.before(AutoDrop);
-        //this.$source.hide();
-        //return AutoDrop;
-        return this.$source;
-    }
-
-    , parse: function () {
+    ,  parse: function () {
         var that = this
           , map = {}
           , source = []
@@ -66,13 +57,13 @@
         this.$source.find('li').each(function () {
             var option = $(this);
             if (option.text() === '') {
-                that.options.placeholder = option.text();
+                that.options.placeholder = option.text().replace(/\s/g, '');
                 return;
             }
-            map[option.text()] = option.text();
-            source.push(option.text());
+            map[option.text()] = option.text().replace(/\s/g, '');
+            source.push(option.text().replace(/\s/g, ''));
             if (option.prop('selected')) {
-                selected = option.text();
+                selected = option.text().replace(/\s/g, '');
                 selectedValue = option.val();
             }
         })
@@ -80,7 +71,7 @@
         if (selected) {
             this.$element.val(selected);
             this.$target.val(selectedValue);
-            this.$container.addClass('AutoDrop-selected');
+            this.$source.addClass('autodrop-selected');
             this.selected = true;
         }
         return source;
@@ -105,7 +96,7 @@
         this.$element.val(this.updater(val)).trigger('change');
         this.$target.val(this.map[val]).trigger('change');
         this.$source.val(this.map[val]).trigger('change');
-        this.$container.addClass('AutoDrop-selected');
+        this.$source.addClass('autodrop-selected');
         this.selected = true;
         return this.hide();
     }
@@ -221,7 +212,7 @@
     }
 
     , toggle: function (e) {
-        if (this.$container.hasClass('AutoDrop-selected')) {
+        if (this.$source.hasClass('autodrop-selected')) {
             this.clearTarget();
             this.triggerChange();
             this.clearElement();
@@ -246,7 +237,7 @@
     , clearTarget: function () {
         this.$source.val('');
         this.$target.val('');
-        this.$container.removeClass('AutoDrop-selected');
+        this.$source.removeClass('autodrop-selected');
         this.selected = false;
     }
 
@@ -389,25 +380,24 @@
     }
     };
 
-    /* AutoDrop PLUGIN DEFINITION
+    /* autodrop PLUGIN DEFINITION
      * =========================== */
 
-    $.fn.AutoDrop = function (option) {
+    $.fn.autodrop = function (option) {
         return this.each(function () {
             var $this = $(this)
-              , data = $this.data('AutoDrop')
+              , data = $this.data('autodrop')
               , options = typeof option == 'object' && option;
-            if (!data) { $this.data('AutoDrop', (data = new AutoDrop(this, options))); }
+            if (!data) { $this.data('autodrop', (data = new autodrop(this, options))); }
             if (typeof option == 'string') { data[option](); }
         });
     };
 
-    $.fn.AutoDrop.defaults = {
-        template: '<div class="AutoDrop-container"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="AutoDrop-clear"><i class="icon-remove"/></span></span></div>'
-    , menu: '<ul class="typeahead typeahead-long dropdown-menu"></ul>'
-    , item: '<li><a href="#"></a></li>'
+    $.fn.autodrop.defaults = {
+     
+     item: '<li><a href="#"></a></li>'
     };
 
-    $.fn.AutoDrop.Constructor = AutoDrop;
+    $.fn.autodrop.Constructor = autodrop;
 
 }(window.jQuery);
