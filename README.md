@@ -32,10 +32,8 @@ Add the original Twitter Bootstrap v3 segmented button code as follows, then jus
     });
 </script>
 ```
-## Live Example
-
-<a target="_blank" href="https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html">
-https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html
+## Live <a target="_blank" href="https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html">
+Example
 </a>
 
 ## License
