@@ -18,8 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============================================================ */
-
-!function ($) {
+! function ($) {
 
     "use strict";
 
@@ -29,256 +28,281 @@
     var autodrop = function (element, options) {
         this.options = $.extend({}, $.fn.autodrop.defaults, options);
         this.$source = $(element);
-        
+
         this.$element = this.$source.find('input[type=text]');
         this.$target = this.$source.find('input[type=hidden]');
-        this.$button = this.$source.find('.dropdown-toggle'); 
-		this.$caret= this.$button.find('.caret').first();
+        this.$button = this.$source.find('.dropdown-toggle');
+        this.$caret = this.$button.find('.caret').first();
         this.$menu = this.$source.find('ul');
         this.matcher = this.options.matcher || this.matcher;
         this.sorter = this.options.sorter || this.sorter;
         this.highlighter = this.options.highlighter || this.highlighter;
         this.shown = false;
         this.selected = false;
-        this.refresh(); 
+        this.refresh();
         this.listen();
-		this.setup();
-		
+        this.setup();
+
     };
 
     autodrop.prototype = {
 
         constructor: autodrop
 
-    ,  parse: function () {
-        var that = this
-          , map = {}
-          , source = []
-          , selected = false
-          , selectedValue = '';
-        this.$source.find('li').each(function () {
-            var option = $(this);
-            if (option.text() === '') {
-                that.options.placeholder = option.text().replace(/\s/g, '');
+        ,
+        parse: function () {
+            var that = this,
+                map = {}, source = [],
+                selected = false,
+                selectedValue = '';
+            this.$source.find('li').each(function () {
+                var option = $(this);
+                if (option.text() === '') {
+                    that.options.placeholder = option.text().replace(/\s/g, '');
+                    return;
+                }
+                map[option.text()] = option.text().replace(/\s/g, '');
+                source.push(option.text().replace(/\s/g, ''));
+                if (option.prop('selected')) {
+                    selected = option.text().replace(/\s/g, '');
+                    selectedValue = option.val();
+                }
+            })
+            this.map = map;
+            if (selected) {
+                this.$element.val(selected);
+                this.$target.val(selectedValue);
+                this.$source.addClass('autodrop-selected');
+                this.selected = true;
+            }
+            return source;
+        },
+        setup: function () {
+            this.$source.addClass('autodrop');
+        }
+
+        ,
+        select: function () {
+            var val = this.$menu.find('.active').attr('data-value');
+            this.$element.val(this.updater(val)).trigger('change');
+            this.$target.val(this.map[val]).trigger('change');
+            this.$source.val(this.map[val]).trigger('change');
+            this.$source.addClass('autodrop-selected');
+			$(this.$button).find('span').removeClass('caret');
+			$(this.$button).find('span').addClass('glyphicon glyphicon-remove');
+            this.selected = true;
+            return this.hide();
+        }
+
+        ,
+        updater: function (item) {
+            return item;
+        }
+
+        ,
+        show: function () {
+            var pos = $.extend({}, this.$element.position(), {
+                height: this.$element[0].offsetHeight,
+                width: $(this.$element[0]).outerWidth()
+            });
+
+            this.$menu
+                .insertAfter(this.$element)
+                .css({
+                    top: pos.top + pos.height,
+                    left: pos.left,
+                    width: pos.width
+                })
+                .show();
+
+            this.shown = true;
+            return this;
+        }
+
+        ,
+        hide: function () {
+            this.$menu.hide();
+            this.shown = false;
+            return this;
+        }
+
+        ,
+        lookup: function (event) {
+            this.query = this.$element.val();
+            return this.process(this.source);
+        }
+
+        ,
+        process: function (items) {
+            var that = this;
+
+            items = $.grep(items, function (item) {
+                return that.matcher(item);
+            })
+
+            items = this.sorter(items);
+
+            if (!items.length) {
+                return this.shown ? this.hide() : this;
+            }
+
+            return this.render(items.slice(0, this.options.items)).show();
+        }
+
+        ,
+        matcher: function (item) {
+            return~ item.toLowerCase().indexOf(this.query.toLowerCase());
+        }
+
+        ,
+        sorter: function (items) {
+            var beginswith = [],
+                caseSensitive = [],
+                caseInsensitive = [],
+                item;
+
+            while (item = items.shift()) {
+                if (!item.toLowerCase().indexOf(this.query.toLowerCase())) {
+                    beginswith.push(item);
+                } else if (~item.indexOf(this.query)) {
+                    caseSensitive.push(item);
+                } else {
+                    caseInsensitive.push(item);
+                }
+            }
+
+            return beginswith.concat(caseSensitive, caseInsensitive);
+        }
+
+        ,
+        highlighter: function (item) {
+            var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+            return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                return '<strong>' + match + '</strong>';
+            })
+        }
+
+        ,
+        render: function (items) {
+            var that = this;
+
+            items = $(items).map(function (i, item) {
+                i = $(that.options.item).attr('data-value', item);
+                i.find('a').html(that.highlighter(item));
+                return i[0];
+            })
+
+            items.first().addClass('active');
+            this.$menu.html(items);
+            return this;
+        }
+
+        ,
+        next: function (event) {
+            var active = this.$menu.find('.active').removeClass('active'),
+                next = active.next();
+
+            if (!next.length) {
+                next = $(this.$menu.find('li')[0]);
+            }
+
+            next.addClass('active');
+        }
+
+        ,
+        prev: function (event) {
+            var active = this.$menu.find('.active').removeClass('active'),
+                prev = active.prev();
+
+            if (!prev.length) {
+                prev = this.$menu.find('li').last();
+            }
+
+            prev.addClass('active');
+        }
+
+        ,
+        toggle: function (e) {
+
+            if (this.$source.hasClass('autodrop-selected')) {
+                this.clearTarget();
+                this.triggerChange();
+                this.clearElement();
+
+            } else {
+                if (this.shown) {
+                    this.hide();
+                } else {
+                    this.clearElement();
+                    this.lookup();
+                }
+            }
+        }
+
+        ,
+        clearElement: function () {
+            this.$element.val('').focus();
+        }
+
+        ,
+        clearTarget: function () {
+            this.$source.val('');
+            this.$target.val('');
+            this.$source.removeClass('autodrop-selected');
+$(this.$button).find('span').addClass('caret');
+			$(this.$button).find('span').removeClass('glyphicon glyphicon-remove');
+            this.selected = false;
+        }
+
+        ,
+        triggerChange: function () {
+            this.$source.trigger('change');
+        }
+
+        ,
+        refresh: function () {
+            this.source = this.parse();
+            this.options.items = this.source.length;
+        }
+
+        ,
+        listen: function () {
+            this.$element
+                .on('focus', $.proxy(this.focus, this))
+                .on('blur', $.proxy(this.blur, this))
+                .on('keypress', $.proxy(this.keypress, this))
+                .on('keyup', $.proxy(this.keyup, this));
+
+            if (this.eventSupported('keydown')) {
+                this.$element.on('keydown', $.proxy(this.keydown, this));
+            }
+
+            this.$menu
+                .on('click', $.proxy(this.click, this))
+                .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
+                .on('mouseleave', 'li', $.proxy(this.mouseleave, this));
+
+            this.$button
+                .on('click', $.proxy(this.toggle, this));
+        }
+
+        ,
+        eventSupported: function (eventName) {
+            var isSupported = eventName in this.$element;
+            if (!isSupported) {
+                this.$element.setAttribute(eventName, 'return;');
+                isSupported = typeof this.$element[eventName] === 'function';
+            }
+            return isSupported;
+        }
+
+        ,
+        move: function (e) {
+            if (!this.shown) {
                 return;
             }
-            map[option.text()] = option.text().replace(/\s/g, '');
-            source.push(option.text().replace(/\s/g, ''));
-            if (option.prop('selected')) {
-                selected = option.text().replace(/\s/g, '');
-                selectedValue = option.val();
-            }
-        })
-        this.map = map;
-        if (selected) {
-            this.$element.val(selected);
-            this.$target.val(selectedValue);
-            this.$source.addClass('autodrop-selected');  
-            this.selected = true;
-        }
-        return source;
-    } 
-	,setup: function(){
-	this.$source.addClass('autodrop');
-	}
 
-    , select: function () {
-        var val = this.$menu.find('.active').attr('data-value');
-        this.$element.val(this.updater(val)).trigger('change');
-        this.$target.val(this.map[val]).trigger('change');
-        this.$source.val(this.map[val]).trigger('change');
-        this.$source.addClass('autodrop-selected');
-	 	 
-        this.selected = true;
-        return this.hide();
-    }
-
-    , updater: function (item) {
-        return item;
-    }
-
-    , show: function () {
-        var pos = $.extend({}, this.$element.position(), {
-            height: this.$element[0].offsetHeight
-			,width:$(this.$element[0]).outerWidth()
-        });
-
-        this.$menu
-          .insertAfter(this.$element)
-          .css({
-              top: pos.top + pos.height
-          , left: pos.left
-		  ,width:pos.width
-          })
-          .show();
-
-        this.shown = true;
-        return this;
-    }
-
-    , hide: function () {
-        this.$menu.hide();
-        this.shown = false;
-        return this;
-    }
-
-    , lookup: function (event) {
-        this.query = this.$element.val();
-        return this.process(this.source);
-    }
-
-    , process: function (items) {
-        var that = this;
-
-        items = $.grep(items, function (item) {
-            return that.matcher(item);
-        })
-
-        items = this.sorter(items);
-
-        if (!items.length) {
-            return this.shown ? this.hide() : this;
-        }
-
-        return this.render(items.slice(0, this.options.items)).show();
-    }
-
-    , matcher: function (item) {
-        return ~item.toLowerCase().indexOf(this.query.toLowerCase());
-    }
-
-    , sorter: function (items) {
-        var beginswith = []
-          , caseSensitive = []
-          , caseInsensitive = []
-          , item;
-
-        while (item = items.shift()) {
-            if (!item.toLowerCase().indexOf(this.query.toLowerCase())) { beginswith.push(item); }
-            else if (~item.indexOf(this.query)) { caseSensitive.push(item); }
-            else { caseInsensitive.push(item); }
-        }
-
-        return beginswith.concat(caseSensitive, caseInsensitive);
-    }
-
-    , highlighter: function (item) {
-        var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
-        return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>';
-        })
-    }
-
-    , render: function (items) {
-        var that = this;
-
-        items = $(items).map(function (i, item) {
-            i = $(that.options.item).attr('data-value', item);
-            i.find('a').html(that.highlighter(item));
-            return i[0];
-        })
-
-        items.first().addClass('active');
-        this.$menu.html(items);
-        return this;
-    }
-
-    , next: function (event) {
-        var active = this.$menu.find('.active').removeClass('active')
-          , next = active.next();
-
-        if (!next.length) {
-            next = $(this.$menu.find('li')[0]);
-        }
-
-        next.addClass('active');
-    }
-
-    , prev: function (event) {
-        var active = this.$menu.find('.active').removeClass('active')
-          , prev = active.prev();
-
-        if (!prev.length) {
-            prev = this.$menu.find('li').last();
-        }
-
-        prev.addClass('active');
-    }
-
-    , toggle: function (e) {
-		
-        if (this.$source.hasClass('autodrop-selected')) { 
-            this.clearTarget();
-            this.triggerChange();
-            this.clearElement();
-
-        } else {
-            if (this.shown) {
-                this.hide(); 
-            } else {
-                this.clearElement();
-                this.lookup(); 
-            }
-
-
-            
-        }
-    }
-
-    , clearElement: function () {
-        this.$element.val('').focus();
-    }
-
-    , clearTarget: function () {
-        this.$source.val('');
-        this.$target.val('');
-        this.$source.removeClass('autodrop-selected');
-	 	 
-        this.selected = false;
-    }
-
-    , triggerChange: function () {
-        this.$source.trigger('change');
-    }
-
-    , refresh: function () {
-        this.source = this.parse();
-        this.options.items = this.source.length;
-    }
-
-    , listen: function () {
-        this.$element
-          .on('focus', $.proxy(this.focus, this))
-          .on('blur', $.proxy(this.blur, this))
-          .on('keypress', $.proxy(this.keypress, this))
-          .on('keyup', $.proxy(this.keyup, this));
-
-        if (this.eventSupported('keydown')) {
-            this.$element.on('keydown', $.proxy(this.keydown, this));
-        }
-
-        this.$menu
-          .on('click', $.proxy(this.click, this))
-          .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
-          .on('mouseleave', 'li', $.proxy(this.mouseleave, this));
-
-        this.$button
-          .on('click', $.proxy(this.toggle, this)); 
-    }
-
-    , eventSupported: function (eventName) {
-        var isSupported = eventName in this.$element;
-        if (!isSupported) {
-            this.$element.setAttribute(eventName, 'return;');
-            isSupported = typeof this.$element[eventName] === 'function';
-        }
-        return isSupported;
-    }
-
-    , move: function (e) {
-        if (!this.shown) { return; }
-
-        switch (e.keyCode) {
+            switch (e.keyCode) {
             case 9: // tab
             case 13: // enter
             case 27: // escape
@@ -294,23 +318,28 @@
                 e.preventDefault();
                 this.next();
                 break;
+            }
+
+            e.stopPropagation();
         }
 
-        e.stopPropagation();
-    }
+        ,
+        keydown: function (e) {
+            this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
+            this.move(e);
+        }
 
-    , keydown: function (e) {
-        this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40, 38, 9, 13, 27]);
-        this.move(e);
-    }
+        ,
+        keypress: function (e) {
+            if (this.suppressKeyPressRepeat) {
+                return;
+            }
+            this.move(e);
+        }
 
-    , keypress: function (e) {
-        if (this.suppressKeyPressRepeat) { return; }
-        this.move(e);
-    }
-
-    , keyup: function (e) {
-        switch (e.keyCode) {
+        ,
+        keyup: function (e) {
+            switch (e.keyCode) {
             case 40: // down arrow
             case 39: // right arrow
             case 38: // up arrow
@@ -324,56 +353,65 @@
 
             case 9: // tab
             case 13: // enter
-                if (!this.shown) { return; }
+                if (!this.shown) {
+                    return;
+                }
                 this.select();
                 break;
 
             case 27: // escape
-                if (!this.shown) { return; }
+                if (!this.shown) {
+                    return;
+                }
                 this.hide();
                 break;
 
             default:
                 this.clearTarget();
                 this.lookup();
+            }
+
+            e.stopPropagation();
+            e.preventDefault();
         }
 
-        e.stopPropagation();
-        e.preventDefault();
-    }
-
-    , focus: function (e) {
-        this.focused = true;
-    }
-
-    , blur: function (e) {
-        var that = this;
-        this.focused = false;
-        var val = this.$element.val();
-        if (!this.selected && val !== '') {
-            this.$element.val('');
-            this.$source.val('').trigger('change');
-            this.$target.val('').trigger('change');
+        ,
+        focus: function (e) {
+            this.focused = true;
         }
-        //if (!this.mousedover && this.shown) { setTimeout(function () { that.hide(); }, 200); }
-    }
 
-    , click: function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        this.select();
-        this.$element.focus();
-    }
+        ,
+        blur: function (e) {
+            var that = this;
+            this.focused = false;
+            var val = this.$element.val();
+            if (!this.selected && val !== '') {
+                this.$element.val('');
+                this.$source.val('').trigger('change');
+                this.$target.val('').trigger('change');
+            }
+            //if (!this.mousedover && this.shown) { setTimeout(function () { that.hide(); }, 200); }
+        }
 
-    , mouseenter: function (e) {
-        this.mousedover = true;
-        this.$menu.find('.active').removeClass('active');
-        $(e.currentTarget).addClass('active');
-    }
+        ,
+        click: function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.select();
+            this.$element.focus();
+        }
 
-    , mouseleave: function (e) {
-        this.mousedover = false;
-    }
+        ,
+        mouseenter: function (e) {
+            this.mousedover = true;
+            this.$menu.find('.active').removeClass('active');
+            $(e.currentTarget).addClass('active');
+        }
+
+        ,
+        mouseleave: function (e) {
+            this.mousedover = false;
+        }
     };
 
     /* autodrop PLUGIN DEFINITION
@@ -381,17 +419,21 @@
 
     $.fn.autodrop = function (option) {
         return this.each(function () {
-            var $this = $(this)
-              , data = $this.data('autodrop')
-              , options = typeof option == 'object' && option;
-            if (!data) { $this.data('autodrop', (data = new autodrop(this, options))); }
-            if (typeof option == 'string') { data[option](); }
+            var $this = $(this),
+                data = $this.data('autodrop'),
+                options = typeof option == 'object' && option;
+            if (!data) {
+                $this.data('autodrop', (data = new autodrop(this, options)));
+            }
+            if (typeof option == 'string') {
+                data[option]();
+            }
         });
     };
 
     $.fn.autodrop.defaults = {
-     
-     item: '<li><a href="#"></a></li>'
+
+        item: '<li><a href="#"></a></li>'
     };
 
     $.fn.autodrop.Constructor = autodrop;
