@@ -1,6 +1,7 @@
-# Bootstrap Combobox
+# Bootstrap AutoDrop
 
-We had need of a combobox at work and after looking around at the available options I was not happy with any of them.  The project had all it's styling based on Twitter's Bootstrap, so building on that made sense.
+Forked from Daniel Farell's original plugin (https://github.com/danielfarrell/bootstrap-combobox).  
+This plugin does not use a select list and works similar to the original bootstrap split-dropdown except with the need of an input box in place of a button
 
 ## How to use it
 
@@ -8,24 +9,17 @@ The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then
 
 Then just activate the plugin on a normal select box(suggest having a blank option first):
 
-    <select class="combobox">
-      <option></option>
-      <option value="PA">Pennsylvania</option>
-      <option value="CT">Connecticut</option>
-      <option value="NY">New York</option>
-      <option value="MD">Maryland</option>
-      <option value="VA">Virginia</option>
-    </select>
+    <div class="btn-group autodrop"><input type="text" placeholder="Field" ><button type="button" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle DropDown</span></button><ul class="dropdown-menu typeahead typeahead-long"><li><a href="x">Address</a></li><li><a href="x">City</a></li><li><a href="x">CompanyName</a></li><li><a href="x">ContactName</a></li><li><a href="x">ContactTitle</a></li></ul><input type="hidden" data-name="Field"></div>
 
     <script type="text/javascript">
       $(document).ready(function(){
-        $('.combobox').combobox();
+        $('.combobox').AutoDrop();
       });
     </script>
 
 ## Live Example
 
-http://dl.dropbox.com/u/21368/bootstrap-combobox/index.html
+coming soon
 
 ## License
 
