@@ -7,9 +7,21 @@ This plugin does not use a select list and works similar to the original bootstr
 
 The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then the stylesheet(CSS or LESS) and javascript.
 
-Then just activate the plugin on a normal select box(suggest having a blank option first):
+Augment the original Twitter Bootstrap v3 dropdown code as follows, then just initialize the plugin!
 
-    <div class="btn-group autodrop"><input type="text" placeholder="Field" ><button type="button" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle DropDown</span></button><ul class="dropdown-menu typeahead typeahead-long"><li><a href="x">Address</a></li><li><a href="x">City</a></li><li><a href="x">CompanyName</a></li><li><a href="x">ContactName</a></li><li><a href="x">ContactTitle</a></li></ul><input type="hidden" data-name="Field"></div>
+    <div class="btn-group autodrop">
+    <input type="text" placeholder="Field" >
+    <button type="button" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
+    <span class="caret"></span><span class="sr-only">Toggle DropDown</span>
+    </button>
+    <ul class="dropdown-menu typeahead typeahead-long">
+    <li><a href="x">Address</a></li>
+    <li><a href="x">City</a></li>
+    <li><a href="x">CompanyName</a>
+    </li><li><a href="x">ContactName</a></li>
+    <li><a href="x">ContactTitle</a></li></ul>
+    <input type="hidden" data-name="Field">
+    </div>
 
     <script type="text/javascript">
       $(document).ready(function(){
