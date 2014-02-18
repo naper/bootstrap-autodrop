@@ -20,8 +20,7 @@ Add the original Twitter Bootstrap v3 segmented button code as follows, then jus
             <li><a href="x"> CompanyName  </a></li>
             <li><a href="x"> ContactName  </a></li>
             <li><a href="x"> ContactTitle </a></li>
-        </ul>
-        <input type="hidden" data-name="Field">
+        </ul> 
     </div>
     <!-- /btn-group -->
 </div>
