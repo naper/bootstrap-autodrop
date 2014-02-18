@@ -1,10 +1,10 @@
 /* =============================================================
- * bootstrap-combobox.js v1.1.5
+ * AutoDrop.js v1.0.0
  * =============================================================
  * Copyright 2012 Narin Persad
  *
- * ~~~~Forked from Daniel Farrell's original bootstrap-combobox plugin~~~~
- *
+ * ~~~~Forked from Daniel Farrell's original bootstrap-AutoDrop plugin~~~~
+ * https://github.com/danielfarrell/bootstrap-AutoDrop
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@
 
     "use strict";
 
-    /* COMBOBOX PUBLIC CLASS DEFINITION
+    /* AutoDrop PUBLIC CLASS DEFINITION
      * ================================ */
 
-    var Combobox = function (element, options) {
-        this.options = $.extend({}, $.fn.combobox.defaults, options);
+    var AutoDrop = function (element, options) {
+        this.options = $.extend({}, $.fn.AutoDrop.defaults, options);
         this.$source = $(element);
         this.$container = this.setup();
         this.$element = this.$container.find('input[type=text]');
@@ -45,15 +45,15 @@
         this.listen();
     };
 
-    Combobox.prototype = {
+    AutoDrop.prototype = {
 
-        constructor: Combobox
+        constructor: AutoDrop
 
     , setup: function () {
-        //var combobox = $(this.options.template);
-        //this.$source.before(combobox);
+        //var AutoDrop = $(this.options.template);
+        //this.$source.before(AutoDrop);
         //this.$source.hide();
-        //return combobox;
+        //return AutoDrop;
         return this.$source;
     }
 
@@ -80,7 +80,7 @@
         if (selected) {
             this.$element.val(selected);
             this.$target.val(selectedValue);
-            this.$container.addClass('combobox-selected');
+            this.$container.addClass('AutoDrop-selected');
             this.selected = true;
         }
         return source;
@@ -105,7 +105,7 @@
         this.$element.val(this.updater(val)).trigger('change');
         this.$target.val(this.map[val]).trigger('change');
         this.$source.val(this.map[val]).trigger('change');
-        this.$container.addClass('combobox-selected');
+        this.$container.addClass('AutoDrop-selected');
         this.selected = true;
         return this.hide();
     }
@@ -221,7 +221,7 @@
     }
 
     , toggle: function (e) {
-        if (this.$container.hasClass('combobox-selected')) {
+        if (this.$container.hasClass('AutoDrop-selected')) {
             this.clearTarget();
             this.triggerChange();
             this.clearElement();
@@ -246,7 +246,7 @@
     , clearTarget: function () {
         this.$source.val('');
         this.$target.val('');
-        this.$container.removeClass('combobox-selected');
+        this.$container.removeClass('AutoDrop-selected');
         this.selected = false;
     }
 
@@ -389,25 +389,25 @@
     }
     };
 
-    /* COMBOBOX PLUGIN DEFINITION
+    /* AutoDrop PLUGIN DEFINITION
      * =========================== */
 
-    $.fn.combobox = function (option) {
+    $.fn.AutoDrop = function (option) {
         return this.each(function () {
             var $this = $(this)
-              , data = $this.data('combobox')
+              , data = $this.data('AutoDrop')
               , options = typeof option == 'object' && option;
-            if (!data) { $this.data('combobox', (data = new Combobox(this, options))); }
+            if (!data) { $this.data('AutoDrop', (data = new AutoDrop(this, options))); }
             if (typeof option == 'string') { data[option](); }
         });
     };
 
-    $.fn.combobox.defaults = {
-        template: '<div class="combobox-container"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><i class="icon-remove"/></span></span></div>'
+    $.fn.AutoDrop.defaults = {
+        template: '<div class="AutoDrop-container"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="AutoDrop-clear"><i class="icon-remove"/></span></span></div>'
     , menu: '<ul class="typeahead typeahead-long dropdown-menu"></ul>'
     , item: '<li><a href="#"></a></li>'
     };
 
-    $.fn.combobox.Constructor = Combobox;
+    $.fn.AutoDrop.Constructor = AutoDrop;
 
 }(window.jQuery);
