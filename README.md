@@ -55,7 +55,7 @@ Add the original Twitter Bootstrap v3 segmented button code as follows, then jus
 ```
 ## Live Example
 
-<a href="https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html">
+<a target="_blank" href="https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html">
 https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html
 </a>
 
