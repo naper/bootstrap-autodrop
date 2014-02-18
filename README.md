@@ -1,13 +1,13 @@
 # Bootstrap AutoDrop
 
 Forked from Daniel Farell's original plugin (https://github.com/danielfarrell/bootstrap-combobox).  
-This plugin does not use a select list and works similar to the original bootstrap split-dropdown except with the need of an input box in place of a button
+This plugin uses the original bootstrap<a href="http://getbootstrap.com/components/#input-groups-buttons-segmented"> segmented button </a> and transforms it into an auto predicted dropdown
 
 ## How to use it
 
 The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then the stylesheet(CSS or LESS) and javascript.
 
-Augment the original Twitter Bootstrap v3 dropdown code as follows, then just initialize the plugin!
+Add the original Twitter Bootstrap v3 segmented button code as follows, then just initialize the plugin!
 ```HTML
  <div class="input-group autoddl">
                         <input type="text" class="form-control" placeholder="Field">
