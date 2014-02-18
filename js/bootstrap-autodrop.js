@@ -30,7 +30,7 @@
         this.$source = $(element);
 
         this.$element = this.$source.find('input[type=text]');
-        this.$target = this.$source.find('input[type=hidden]');
+        //this.$target = this.$source.find('input[type=hidden]');
         this.$button = this.$source.find('.dropdown-toggle');
         this.$caret = this.$button.find('.caret').first();
         this.$menu = this.$source.find('ul');
@@ -71,7 +71,7 @@
             this.map = map;
             if (selected) {
                 this.$element.val(selected);
-                this.$target.val(selectedValue);
+                //this.$target.val(selectedValue);
                 this.$source.addClass('autodrop-selected');
                 this.selected = true;
             }
@@ -85,7 +85,7 @@
         select: function () {
             var val = this.$menu.find('.active').attr('data-value');
             this.$element.val(this.updater(val)).trigger('change');
-            this.$target.val(this.map[val]).trigger('change');
+           // this.$target.val(this.map[val]).trigger('change');
             this.$source.val(this.map[val]).trigger('change');
             this.$source.addClass('autodrop-selected');
 			$(this.$button).find('span').removeClass('caret');
@@ -247,7 +247,7 @@
         ,
         clearTarget: function () {
             this.$source.val('');
-            this.$target.val('');
+           // this.$target.val('');
             this.$source.removeClass('autodrop-selected');
 $(this.$button).find('span').addClass('caret');
 			$(this.$button).find('span').removeClass('glyphicon glyphicon-remove');
@@ -388,7 +388,7 @@ $(this.$button).find('span').addClass('caret');
             if (!this.selected && val !== '') {
                 this.$element.val('');
                 this.$source.val('').trigger('change');
-                this.$target.val('').trigger('change');
+               // this.$target.val('').trigger('change');
             }
             //if (!this.mousedover && this.shown) { setTimeout(function () { that.hide(); }, 200); }
         }
