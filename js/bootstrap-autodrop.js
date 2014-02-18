@@ -29,7 +29,7 @@
     var autodrop = function (element, options) {
         this.options = $.extend({}, $.fn.autodrop.defaults, options);
         this.$source = $(element);
-         
+        
         this.$element = this.$source.find('input[type=text]');
         this.$target = this.$source.find('input[type=hidden]');
         this.$button = this.$source.find('.dropdown-toggle'); 
@@ -42,6 +42,8 @@
         this.selected = false;
         this.refresh(); 
         this.listen();
+		this.setup();
+		
     };
 
     autodrop.prototype = {
@@ -76,6 +78,9 @@
         }
         return source;
     } 
+	,setup: function(){
+	this.$source.addClass('autodrop');
+	}
 
     , select: function () {
         var val = this.$menu.find('.active').attr('data-value');
