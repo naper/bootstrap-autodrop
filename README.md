@@ -8,7 +8,7 @@ This plugin does not use a select list and works similar to the original bootstr
 The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then the stylesheet(CSS or LESS) and javascript.
 
 Augment the original Twitter Bootstrap v3 dropdown code as follows, then just initialize the plugin!
-
+```HTML
  <div class="input-group autoddl">
                         <input type="text" class="form-control" placeholder="Field">
                         <div class="input-group-btn">
@@ -52,6 +52,7 @@ Augment the original Twitter Bootstrap v3 dropdown code as follows, then just in
       });
     </script>
 
+```
 ## Live Example
 
 https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html
