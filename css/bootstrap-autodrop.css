@@ -163,3 +163,9 @@
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     vertical-align: middle;
 }
+
+.autodrop.btn-group > .btn, .autodrop.btn-group-vertical > .btn {
+    float: none;
+    margin: 0;
+    position: relative;
+}
