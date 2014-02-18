@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Bootstrap-autodrop : A combobox plugin that works with twitter bootstrap" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Bootstrap-autodrop</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/naper/bootstrap-autodrop">View on GitHub</a>
+
+          <h1 id="project_title">Bootstrap-autodrop</h1>
+          <h2 id="project_tagline">A combobox plugin that works with twitter bootstrap</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/naper/bootstrap-autodrop/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/naper/bootstrap-autodrop/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="bootstrap-autodrop" class="anchor" href="#bootstrap-autodrop"><span class="octicon octicon-link"></span></a>Bootstrap AutoDrop</h1>
+
+<p>Forked from Daniel Farell's original plugin (<a href="https://github.com/danielfarrell/bootstrap-combobox">https://github.com/danielfarrell/bootstrap-combobox</a>).<br>
+This plugin uses the original bootstrap<a target="_blank" href="http://getbootstrap.com/components/#input-groups-buttons-segmented"> segmented button </a> and transforms it into an auto predicted dropdown</p>
+
+<h2>
+<a name="how-to-use-it" class="anchor" href="#how-to-use-it"><span class="octicon octicon-link"></span></a>How to use it</h2>
+
+<p>The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then the stylesheet(CSS or LESS) and javascript.</p>
+
+<p>Add the original Twitter Bootstrap v3 segmented button code as follows, then just initialize the plugin!</p>
+
+<div class="highlight highlight-HTML"><pre> <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"input-group autoddl"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">placeholder=</span><span class="s">"Field"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"input-group-btn"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">class=</span><span class="s">"btn btn-default dropdown-toggle"</span> <span class="na">data-toggle=</span><span class="s">"dropdown"</span><span class="nt">&gt;</span> <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"caret"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;/button&gt;</span>
+        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu typeahead typeahead-long"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"x"</span><span class="nt">&gt;</span> Address      <span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"x"</span><span class="nt">&gt;</span> City            <span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"x"</span><span class="nt">&gt;</span> CompanyName  <span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"x"</span><span class="nt">&gt;</span> ContactName  <span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"x"</span><span class="nt">&gt;</span> ContactTitle <span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span> 
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="c">&lt;!-- /btn-group --&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="c">&lt;!-- /input-group --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'.autoddl'</span><span class="p">).</span><span class="nx">autodrop</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+<h2>
+<a name="live" class="anchor" href="#live"><span class="octicon octicon-link"></span></a>Live</h2>
+
+<p><a target="_blank" href="https://dl.dropboxusercontent.com/u/269057305/autodrop/index.html">
+Example
+</a></p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Licensed under the Apache License, Version 2.0</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Bootstrap-autodrop maintained by <a href="https://github.com/naper">naper</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
