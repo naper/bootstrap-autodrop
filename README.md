@@ -10,48 +10,32 @@ The dependencies are the Bootstrap stylesheet(CSS or LESS).  Include it and then
 Add the original Twitter Bootstrap v3 segmented button code as follows, then just initialize the plugin!
 ```HTML
  <div class="input-group autoddl">
-                        <input type="text" class="form-control" placeholder="Field">
-                        <div class="input-group-btn">
-                           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">  <span class="caret"></span></button>
-                           <ul class="dropdown-menu typeahead typeahead-long">
-                              <li>
-                                 <a href="x">
-                                 Address
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="x">
-                                 City
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="x">
-                                 CompanyName
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="x">
-                                 ContactName
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="x">
-                                 ContactTitle
-                                 </a>
-                              </li>
-                           </ul>
-                           <input type="hidden" data-name="Field">
-                        </div>
-                        <!-- /btn-group -->
-                     </div>
-                     <!-- /input-group -->
-                     
-    <script type="text/javascript">
-      $(document).ready(function(){
+    <input type="text" class="form-control" placeholder="Field">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu typeahead typeahead-long">
+            <li><a href="x"> Address</a> 
+            </li>
+            <li><a href="x"> City   </a> 
+            </li>
+            <li><a href="x"> CompanyName</a> 
+            </li>
+            <li><a href="x">   ContactName</a> 
+            </li>
+            <li><a href="x">   ContactTitle </a>
+            </li>
+        </ul>
+        <input type="hidden" data-name="Field">
+    </div>
+    <!-- /btn-group -->
+</div>
+<!-- /input-group -->
+<script type="text/javascript">
+    $(document).ready(function () {
         $('.autoddl').autodrop();
-      });
-    </script>
-
+    });
+</script>
 ```
 ## Live Example
 
