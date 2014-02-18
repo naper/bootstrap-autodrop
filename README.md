@@ -15,16 +15,11 @@ Add the original Twitter Bootstrap v3 segmented button code as follows, then jus
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu typeahead typeahead-long">
-            <li><a href="x"> Address</a> 
-            </li>
-            <li><a href="x"> City   </a> 
-            </li>
-            <li><a href="x"> CompanyName</a> 
-            </li>
-            <li><a href="x">   ContactName</a> 
-            </li>
-            <li><a href="x">   ContactTitle </a>
-            </li>
+            <li><a href="x"> Address   	  </a></li>
+            <li><a href="x"> City   	     </a></li>
+            <li><a href="x"> CompanyName  </a></li>
+            <li><a href="x"> ContactName  </a></li>
+            <li><a href="x"> ContactTitle </a></li>
         </ul>
         <input type="hidden" data-name="Field">
     </div>
