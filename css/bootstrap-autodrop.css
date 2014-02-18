@@ -94,9 +94,11 @@
 .autodrop-selected .autodrop-clear {
   display: inline-block;
 }
+/*
+have to figure out later
 .autodrop-selected .caret {
   display: none;
-}
+}*/
 .autodrop-clear {
   display: none;
   width: 14px;

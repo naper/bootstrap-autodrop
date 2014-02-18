@@ -32,8 +32,8 @@
          
         this.$element = this.$source.find('input[type=text]');
         this.$target = this.$source.find('input[type=hidden]');
-        this.$button = this.$source.find('.dropdown-toggle');
-        //this.$menu = $(this.options.menu).appendTo('body');
+        this.$button = this.$source.find('.dropdown-toggle'); 
+		this.$caret= this.$button.find('.caret').first();
         this.$menu = this.$source.find('ul');
         this.matcher = this.options.matcher || this.matcher;
         this.sorter = this.options.sorter || this.sorter;
@@ -71,25 +71,11 @@
         if (selected) {
             this.$element.val(selected);
             this.$target.val(selectedValue);
-            this.$source.addClass('autodrop-selected');
+            this.$source.addClass('autodrop-selected');  
             this.selected = true;
         }
         return source;
-    }
-
-    , transferAttributes: function () {
-        this.options.placeholder = this.$source.attr('data-placeholder') || this.options.placeholder;
-        this.$element.attr('placeholder', this.options.placeholder);
-        this.$target.prop('name', this.$source.prop('name'));
-        this.$target.val(this.$source.val());
-        this.$source.removeAttr('name');  // Remove from source otherwise form will pass parameter twice.
-        this.$element.attr('required', this.$source.attr('required'));
-        this.$element.attr('rel', this.$source.attr('rel'));
-        this.$element.attr('title', this.$source.attr('title'));
-        this.$element.attr('class', this.$source.attr('class'));
-        this.$element.attr('tabindex', this.$source.attr('tabindex'));
-        this.$source.removeAttr('tabindex');
-    }
+    } 
 
     , select: function () {
         var val = this.$menu.find('.active').attr('data-value');
@@ -97,6 +83,7 @@
         this.$target.val(this.map[val]).trigger('change');
         this.$source.val(this.map[val]).trigger('change');
         this.$source.addClass('autodrop-selected');
+	 	 
         this.selected = true;
         return this.hide();
     }
@@ -108,6 +95,7 @@
     , show: function () {
         var pos = $.extend({}, this.$element.position(), {
             height: this.$element[0].offsetHeight
+			,width:$(this.$element[0]).outerWidth()
         });
 
         this.$menu
@@ -115,6 +103,7 @@
           .css({
               top: pos.top + pos.height
           , left: pos.left
+		  ,width:pos.width
           })
           .show();
 
@@ -212,7 +201,8 @@
     }
 
     , toggle: function (e) {
-        if (this.$source.hasClass('autodrop-selected')) {
+		
+        if (this.$source.hasClass('autodrop-selected')) { 
             this.clearTarget();
             this.triggerChange();
             this.clearElement();
@@ -238,6 +228,7 @@
         this.$source.val('');
         this.$target.val('');
         this.$source.removeClass('autodrop-selected');
+	 	 
         this.selected = false;
     }
 
