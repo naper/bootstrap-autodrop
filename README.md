@@ -1,7 +1,7 @@
 # Bootstrap AutoDrop
 
 Forked from Daniel Farell's original plugin (https://github.com/danielfarrell/bootstrap-combobox).  
-This plugin uses the original bootstrap<a href="http://getbootstrap.com/components/#input-groups-buttons-segmented"> segmented button </a> and transforms it into an auto predicted dropdown
+This plugin uses the original bootstrap<a target="_blank" href="http://getbootstrap.com/components/#input-groups-buttons-segmented"> segmented button </a> and transforms it into an auto predicted dropdown
 
 ## How to use it
 
