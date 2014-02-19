@@ -2,7 +2,7 @@
  * autodrop.js v1.0.0
  * =============================================================
  * Copyright 2014 Narin Persad
- *
+ * *
  * ~~~~Forked from Daniel Farrell's original bootstrap-autodrop plugin~~~~
  * https://github.com/danielfarrell/bootstrap-autodrop
  *
